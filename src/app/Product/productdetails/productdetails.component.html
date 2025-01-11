@@ -1,0 +1,13 @@
+<div class="my-4 w-75 m-auto">
+  <div class="card">
+    <div class="d-flex justify-content-center align-items-center">
+      <img [src]="product.image" name="" value="" class="card-img-top" alt="...">
+    </div>
+    <div class="card-body position-relative">
+      <h3 class="card-title">{{product.title}}</h3>
+       <p>Details: {{product.description}}</p>
+       <div class="bg-primary p-2 text-center text-white  form-control">{{product.price | currency:"USD"}}</div>
+       <button class="btn btn-outline-primary form-control my-2" (click)="GoBack()">Back</button>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,65 @@
+<div class="card p-4 my-3">
+  <div class="table-responsive">
+    <table class="table table-bordered text-center ">
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Photo</th>
+          <th scope="col">Product Name</th>
+          <th scope="col">Quantity</th>
+          <th scope="col">Price</th>
+          <th scope="col">Total</th>
+          <th scope="col">Remove</th>
+        </tr>
+      </thead >
+
+      <tbody *ngFor="let product of shownProducts;let i = index">
+          <tr>
+          <th scope="row">{{i+1}}</th>
+          <th scope="row">
+              <img [src]="product.productImage" alt="photo" style="width: 150px; height: 150px;">
+          </th>
+          <td scope="row">{{product.productName}}</td>
+          <td>
+            <input
+            type="number"
+            required
+            min="1"
+            [(ngModel)] = "product.productQuantity"
+            (keyup) = "UpdateProduct(product.productQuantity,product.productId)"
+            #quantity = "ngModel"
+            [class.is-valid] = "quantity.value > 0">
+            @if(quantity.invalid){
+               @if(quantity.hasError("required"))
+               {
+                 <div class="alert my-2 alert-danger">Quantity is required</div>
+               }
+               @if(quantity.hasError("min"))
+               {
+                 <div class="alert my-2 alert-danger">Quantity must be greater than 0</div>
+               }
+            }
+            </td>
+          <td>{{product.productPrice | currency:"USD"}}</td>
+          <td>{{product.productPrice * product.productQuantity| currency:"USD"}}</td>
+          <td><button class="btn btn-danger" (click)="removeProduct(product)">Remove</button></td>
+          </tr>
+      </tbody>
+    </table>
+  </div>
+  @if (totalPrice > 0) {
+    <h3 class="fw-bold">Total Price : {{totalPrice | currency : "USD"}}</h3>
+  }
+
+  @if(shownProducts !== undefined && shownProducts.length > 0) {
+    <div class="d-flex justify-content-center align-items-center" style="gap: 30px;" #div>
+      <button class="btn btn-outline-danger" (click)="ClearCart()">Clear Cart</button>
+      <button class="btn btn-outline-success" [disabled] = "!disabledOrder" (click)="ConfirmOrder()">Confirm Order</button>
+    </div>
+  }
+  @if(confirmedOrder){
+    <div class="alert alert-success text-center my-4">Order is confirmed</div>
+  }
+</div>
+
+
